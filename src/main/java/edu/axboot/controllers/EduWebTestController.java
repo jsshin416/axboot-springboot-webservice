@@ -68,8 +68,8 @@ public class EduWebTestController extends BaseController {
             @ApiImplicitParam(name = "useYn", value = "사용유무", dataType = "String", paramType = "query")
     })
     public Responses.ListResponse pages(RequestParams<EduWebTest> requestParams) {
-        List<EduWebTest> list =this.eduwebtestService.getPages(requestParams);
-        return Responses.ListResponse.of(list);
+        List<EduWebTest> pages =this.eduwebtestService.getPages(RequestParams<EduWebTest> requestParams);
+        return Responses.ListResponse.of(pages);
 
     }
 

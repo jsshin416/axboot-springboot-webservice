@@ -221,6 +221,11 @@ public class EduWebTestService extends BaseService<EduWebTest, Long> {
     public void del(Long id) {
         eduWebTestMapper.delete(id);
     }
+
+    public List<EduWebTest> getPages(RequestParams<EduWebTest> requestParams) {
+        List<EduWebTest> list = this.getList(requestParams);
+
+    }
 }
 
 
