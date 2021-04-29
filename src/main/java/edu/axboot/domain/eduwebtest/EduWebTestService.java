@@ -8,6 +8,8 @@ import javax.inject.Inject;
 import com.chequer.axboot.core.parameter.RequestParams;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -15,7 +17,7 @@ public class EduWebTestService extends BaseService<EduWebTest, Long> {
     private EduWebTestRepository eduwebtestRepository;
 
     @Inject
-    private EduWebTestMapper eduWebTestMapper;
+    private EduWebTestMapper eduWebTestMapper;//mapper 사용한다고 정의
 
 
     @Inject
@@ -24,13 +26,47 @@ public class EduWebTestService extends BaseService<EduWebTest, Long> {
         this.eduwebtestRepository = eduwebtestRepository;
     }
 
-
+    //JPA
     public List<EduWebTest> gets(RequestParams<EduWebTest> requestParams) {
-        return findAll();
+        List<EduWebTest>list2 = this.getFilter(findAll(),requestParams.getString("companyNm", ""), 1);
+        List<EduWebTest>list3 = this.getFilter(list2,requestParams.getString("ceo", ""),2);
+        List<EduWebTest>list4 = this.getFilter(list3,requestParams.getString("bizno", ""),3);
+        List<EduWebTest>list5 = this.getFilter(list4,requestParams.getString("useYn", ""),4);
+
+        return list5;
+
+
+    }
+    private List<EduWebTest> getFilter(List<EduWebTest> sources, String filter, int type) {
+        List<EduWebTest> targets = new ArrayList<EduWebTest>();
+        for (EduWebTest entity : sources) {
+            if ("".equals(filter)) {
+                targets.add(entity);
+            } else {
+                if (type == 1) {
+                    if (entity.getCompanyNm().contains(filter)) {
+                        targets.add(entity);
+                    }
+                } else if (type == 2) {
+                    if (entity.getCeo().contains(filter)) {
+                        targets.add(entity);
+                    }
+                } else if (type == 3) {
+                    if (entity.getBizno().equals(filter)) {
+                        targets.add(entity);
+                    }
+                } else if (type == 4) {
+                    if (entity.getUseYn().equals(filter)) {
+                        targets.add(entity);
+                    }
+                }
+            }
+        }
+        return targets;
     }
 
 
-
+    //QueryDsl
     public List<EduWebTest> getByQeuryDsl (RequestParams<EduWebTest> requestParams) {
         String company = requestParams.getString("company","");
         String ceo = requestParams.getString("ceo", "");
@@ -92,17 +128,100 @@ public class EduWebTestService extends BaseService<EduWebTest, Long> {
         return eduWebTest;
     }
 
+    //QureyDsl 건별로
+    public List<EduWebTest> gets(String companyNm, String ceo, String bizno, String useYn) {
+        BooleanBuilder builder = new BooleanBuilder();
 
-    public List<EduWebTest> myBatisSelect(RequestParams<EduWebTest> requestParams) {
-        EduWebTest eduWebTest = new EduWebTest();
-        eduWebTest.setCompanyNm(requestParams.getString("company", ""));
-        eduWebTest.setCeo(requestParams.getString("ceo", ""));
-        eduWebTest.setBizno(requestParams.getString("bizno", ""));
-        List<EduWebTest>eduWebTestList = this.eduWebTestMapper.myBatisSelect(eduWebTest);
+        if(isNotEmpty(companyNm)){
+            builder.and(qEduWebTest.companyNm.like("%" + companyNm+"%"));
+        }
+        if (isNotEmpty(ceo)) {
+            builder.and(qEduWebTest.ceo.like("%" + ceo+"%"));
+        }
+        if (isNotEmpty(bizno)) {
+            builder.and(qEduWebTest.bizno.like("%" + bizno+"%"));
+        }
+        if (isNotEmpty(useYn)) {
+            builder.and(qEduWebTest.useYn.eq(useYn));
+        }
+        List<EduWebTest> eduWebTestList = select()
+                .from(qEduWebTest)
+                .where(builder)
+                .orderBy(qEduWebTest.companyNm.asc())
+                .fetch();
         return eduWebTestList;
 
     }
 
+    public EduWebTest getByID(Long id) {
+        BooleanBuilder builder = new BooleanBuilder();
+        builder.and(qEduWebTest.id.eq(id));
+        EduWebTest eduWebTest = select()
+                .from(qEduWebTest)
+                .where(builder)
+                .orderBy(qEduWebTest.companyNm.asc())
+                .fetchOne();
+        return eduWebTest;
+    }
+
+    @Transactional
+    public void persist(EduWebTest request) {//return 값 없이 void로
+        if(request.getId() == null || request.getId() == 0){
+            save(request);//request entity
+        }else{//querydsl 방식으로 update
+            update(qEduWebTest)
+                    .set(qEduWebTest.companyNm, request.getCompanyNm())
+                    .set(qEduWebTest.ceo, request.getCeo())
+                    .set(qEduWebTest.bizno, request.getBizno())
+                    .set(qEduWebTest.tel, request.getTel())
+                    .set(qEduWebTest.zip, request.getZip())
+                    .set(qEduWebTest.address, request.getAddress())
+                    .set(qEduWebTest.addressDetail, request.getAddressDetail())
+                    .set(qEduWebTest.email, request.getEmail())
+                    .set(qEduWebTest.remark, request.getRemark())
+                    .set(qEduWebTest.useYn, request.getUseYn())
+                    .where(qEduWebTest.id.eq(request.getId()))
+                    .execute();
+        }
+
+    }
 
 
+    @Transactional
+    public void remove(Long id) {//return 값 없이 void로
+        delete(qEduWebTest)
+                .where(qEduWebTest.id.eq(id))
+                .execute();
+    }
+
+
+    //MyBatis
+    public List<EduWebTest> select(String companyNm, String ceo, String bizno, String useYn) {
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("companyNm", companyNm);
+        params.put("ceo", ceo);
+        params.put("bizno", bizno);
+        params.put("useYn", useYn);
+
+        List<EduWebTest>list = eduWebTestMapper.select(params);
+        return list;
+    }
+    public EduWebTest selectOne(Long id) {
+        return eduWebTestMapper.selectOne(id);
+    }
+
+    public void enroll(EduWebTest request) {
+        if(request.getId()  == null || request.getId() ==0){
+            eduWebTestMapper.insert(request);
+        }else{
+            eduWebTestMapper.update(request);
+        }
+    }
+
+    public void del(Long id) {
+        eduWebTestMapper.delete(id);
+    }
 }
+
+
+

@@ -25,8 +25,15 @@ public class EduWebTestController extends BaseController {
     private EduWebTestService eduwebtestService;
 
     @RequestMapping(method = RequestMethod.GET, produces = APPLICATION_JSON)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "company", value = "회사명", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "ceo", value = "대표자", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "bizno", value = "사업자 번호", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "useYn", value = "사용유무", dataType = "String", paramType = "query")
+    })
+
     public Responses.ListResponse list(RequestParams<EduWebTest> requestParams) {
-        List<EduWebTest> list = eduwebtestService.gets(requestParams);
+        List<EduWebTest> list = eduwebtestService.gets(requestParams);//gets 오버로드
         return Responses.ListResponse.of(list);
     }
 
@@ -51,6 +58,23 @@ public class EduWebTestController extends BaseController {
     }
 
 
+    @RequestMapping(value= "/queryDsl/pages",  method = RequestMethod.GET, produces = APPLICATION_JSON)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "pageNumber", value = "페이지번호(0부터시작)", required = true, dataType = "integer", paramType = "query", defaultValue = "0"),
+            @ApiImplicitParam(name = "pageSize", value = "페이지크기",required = true, dataType = "integer", paramType = "query",defaultValue = "50"),
+            @ApiImplicitParam(name = "company", value = "회사명", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "ceo", value = "대표자", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "bizno", value = "사업자 번호", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "useYn", value = "사용유무", dataType = "String", paramType = "query")
+    })
+    public Responses.ListResponse pages(RequestParams<EduWebTest> requestParams) {
+        List<EduWebTest> list =this.eduwebtestService.getPages(requestParams);
+        return Responses.ListResponse.of(list);
+
+    }
+
+
+
     @RequestMapping(value= "/queryDsl", method = {RequestMethod.PUT}, produces = APPLICATION_JSON)
     public ApiResponse save2(@RequestBody List<EduWebTest> request) {
         eduwebtestService.saveByQuery(request);
@@ -71,15 +95,5 @@ public class EduWebTestController extends BaseController {
     }
 
 
-    @RequestMapping(value ="/myBatis",method = RequestMethod.GET, produces = APPLICATION_JSON)
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "company", value = "회사명", dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "ceo", value = "대표자", dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "bizno", value = "사업자 번호", dataType = "String", paramType = "query"),
-    })
-    public Responses.ListResponse list3(RequestParams<EduWebTest> requestParams) {
-        List<EduWebTest> list = eduwebtestService.myBatisSelect(requestParams);
-        return Responses.ListResponse.of(list);
-    }
 
 }
