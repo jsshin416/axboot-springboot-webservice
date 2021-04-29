@@ -5,6 +5,7 @@ import com.chequer.axboot.core.controllers.BaseController;
 import com.chequer.axboot.core.parameter.RequestParams;
 import com.wordnik.swagger.annotations.ApiImplicitParam;
 import com.wordnik.swagger.annotations.ApiImplicitParams;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import com.chequer.axboot.core.api.response.ApiResponse;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -67,9 +68,9 @@ public class EduWebTestController extends BaseController {
             @ApiImplicitParam(name = "bizno", value = "사업자 번호", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "useYn", value = "사용유무", dataType = "String", paramType = "query")
     })
-    public Responses.ListResponse pages(RequestParams<EduWebTest> requestParams) {
-        List<EduWebTest> pages =this.eduwebtestService.getPages(RequestParams<EduWebTest> requestParams);
-        return Responses.ListResponse.of(pages);
+    public Responses.PageResponse pages(RequestParams<EduWebTest> requestParams) {
+        Page<EduWebTest> pages =this.eduwebtestService.getPages(requestParams);
+        return Responses.PageResponse.of(pages);
 
     }
 

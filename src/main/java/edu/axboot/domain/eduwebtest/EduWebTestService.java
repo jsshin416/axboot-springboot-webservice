@@ -1,6 +1,9 @@
 package edu.axboot.domain.eduwebtest;
 
 import com.querydsl.core.BooleanBuilder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import edu.axboot.domain.BaseService;
 import javax.inject.Inject;
@@ -28,15 +31,16 @@ public class EduWebTestService extends BaseService<EduWebTest, Long> {
 
     //JPA
     public List<EduWebTest> gets(RequestParams<EduWebTest> requestParams) {
-        List<EduWebTest>list2 = this.getFilter(findAll(),requestParams.getString("companyNm", ""), 1);
-        List<EduWebTest>list3 = this.getFilter(list2,requestParams.getString("ceo", ""),2);
-        List<EduWebTest>list4 = this.getFilter(list3,requestParams.getString("bizno", ""),3);
-        List<EduWebTest>list5 = this.getFilter(list4,requestParams.getString("useYn", ""),4);
+        List<EduWebTest> list2 = this.getFilter(findAll(), requestParams.getString("companyNm", ""), 1);
+        List<EduWebTest> list3 = this.getFilter(list2, requestParams.getString("ceo", ""), 2);
+        List<EduWebTest> list4 = this.getFilter(list3, requestParams.getString("bizno", ""), 3);
+        List<EduWebTest> list5 = this.getFilter(list4, requestParams.getString("useYn", ""), 4);
 
         return list5;
 
 
     }
+
     private List<EduWebTest> getFilter(List<EduWebTest> sources, String filter, int type) {
         List<EduWebTest> targets = new ArrayList<EduWebTest>();
         for (EduWebTest entity : sources) {
@@ -67,14 +71,14 @@ public class EduWebTestService extends BaseService<EduWebTest, Long> {
 
 
     //QueryDsl
-    public List<EduWebTest> getByQeuryDsl (RequestParams<EduWebTest> requestParams) {
-        String company = requestParams.getString("company","");
+    public List<EduWebTest> getByQeuryDsl(RequestParams<EduWebTest> requestParams) {
+        String company = requestParams.getString("company", "");
         String ceo = requestParams.getString("ceo", "");
-        String bizno = requestParams.getString("bizno","");
-        String useYn = requestParams.getString("useYn","");
+        String bizno = requestParams.getString("bizno", "");
+        String useYn = requestParams.getString("useYn", "");
         BooleanBuilder builder = new BooleanBuilder();
 
-        if(isNotEmpty(company)){
+        if (isNotEmpty(company)) {
             builder.and(qEduWebTest.companyNm.contains(company));
         }
         if (isNotEmpty(ceo)) {
@@ -97,10 +101,10 @@ public class EduWebTestService extends BaseService<EduWebTest, Long> {
 
     @Transactional
     public void saveByQuery(List<EduWebTest> request) {
-        for(EduWebTest eduWebTest: request){
-            if(eduWebTest.isCreated()){
+        for (EduWebTest eduWebTest : request) {
+            if (eduWebTest.isCreated()) {
                 save(eduWebTest);
-            }else if(eduWebTest.isModified()){
+            } else if (eduWebTest.isModified()) {
                 update(qEduWebTest)
                         .set(qEduWebTest.companyNm, eduWebTest.getCompanyNm())
                         .set(qEduWebTest.ceo, eduWebTest.getCeo())
@@ -110,7 +114,7 @@ public class EduWebTestService extends BaseService<EduWebTest, Long> {
                         .set(qEduWebTest.useYn, eduWebTest.getUseYn())
                         .where(qEduWebTest.id.eq(eduWebTest.getId()))
                         .execute();
-            }else if(eduWebTest.isDeleted()){
+            } else if (eduWebTest.isDeleted()) {
                 delete(qEduWebTest)
                         .where(qEduWebTest.id.eq(eduWebTest.getId()))
                         .execute();
@@ -120,8 +124,7 @@ public class EduWebTestService extends BaseService<EduWebTest, Long> {
     }
 
 
-
-    public EduWebTest  getByOne(long id) {
+    public EduWebTest getByOne(long id) {
         BooleanBuilder builder = new BooleanBuilder();
         builder.and(qEduWebTest.id.eq(id));
         EduWebTest eduWebTest = select().from(qEduWebTest).where(builder).fetchOne();
@@ -132,14 +135,14 @@ public class EduWebTestService extends BaseService<EduWebTest, Long> {
     public List<EduWebTest> gets(String companyNm, String ceo, String bizno, String useYn) {
         BooleanBuilder builder = new BooleanBuilder();
 
-        if(isNotEmpty(companyNm)){
-            builder.and(qEduWebTest.companyNm.like("%" + companyNm+"%"));
+        if (isNotEmpty(companyNm)) {
+            builder.and(qEduWebTest.companyNm.like("%" + companyNm + "%"));
         }
         if (isNotEmpty(ceo)) {
-            builder.and(qEduWebTest.ceo.like("%" + ceo+"%"));
+            builder.and(qEduWebTest.ceo.like("%" + ceo + "%"));
         }
         if (isNotEmpty(bizno)) {
-            builder.and(qEduWebTest.bizno.like("%" + bizno+"%"));
+            builder.and(qEduWebTest.bizno.like("%" + bizno + "%"));
         }
         if (isNotEmpty(useYn)) {
             builder.and(qEduWebTest.useYn.eq(useYn));
@@ -166,9 +169,9 @@ public class EduWebTestService extends BaseService<EduWebTest, Long> {
 
     @Transactional
     public void persist(EduWebTest request) {//return 값 없이 void로
-        if(request.getId() == null || request.getId() == 0){
+        if (request.getId() == null || request.getId() == 0) {
             save(request);//request entity
-        }else{//querydsl 방식으로 update
+        } else {//querydsl 방식으로 update
             update(qEduWebTest)
                     .set(qEduWebTest.companyNm, request.getCompanyNm())
                     .set(qEduWebTest.ceo, request.getCeo())
@@ -203,17 +206,18 @@ public class EduWebTestService extends BaseService<EduWebTest, Long> {
         params.put("bizno", bizno);
         params.put("useYn", useYn);
 
-        List<EduWebTest>list = eduWebTestMapper.select(params);
+        List<EduWebTest> list = eduWebTestMapper.select(params);
         return list;
     }
+
     public EduWebTest selectOne(Long id) {
         return eduWebTestMapper.selectOne(id);
     }
 
     public void enroll(EduWebTest request) {
-        if(request.getId()  == null || request.getId() ==0){
+        if (request.getId() == null || request.getId() == 0) {
             eduWebTestMapper.insert(request);
-        }else{
+        } else {
             eduWebTestMapper.update(request);
         }
     }
@@ -222,8 +226,13 @@ public class EduWebTestService extends BaseService<EduWebTest, Long> {
         eduWebTestMapper.delete(id);
     }
 
-    public List<EduWebTest> getPages(RequestParams<EduWebTest> requestParams) {
-        List<EduWebTest> list = this.getList(requestParams);
+    public Page<EduWebTest> getPages(RequestParams<EduWebTest> requestParams) {
+        List<EduWebTest> list = this.getByQeuryDsl(requestParams);
+        Pageable pageable = requestParams.getPageable();
+        int start = (int)  pageable.getOffset();
+        int end =(start +pageable.getPageSize() > list.size()? list.size():(start+pageable.getPageSize()));
+        Page<EduWebTest> pages = new PageImpl<>(list.subList(start,end),pageable,list.size());
+        return pages;
 
     }
 }
