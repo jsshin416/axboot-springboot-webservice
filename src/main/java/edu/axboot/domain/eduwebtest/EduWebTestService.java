@@ -1,11 +1,15 @@
 package edu.axboot.domain.eduwebtest;
 
 import com.querydsl.core.BooleanBuilder;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import edu.axboot.domain.BaseService;
+
 import javax.inject.Inject;
 
 import com.chequer.axboot.core.parameter.RequestParams;
@@ -15,8 +19,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+
 @Service
 public class EduWebTestService extends BaseService<EduWebTest, Long> {
+    private static final Logger logger = LoggerFactory.getLogger(EduWebTestService.class);
+
     private EduWebTestRepository eduwebtestRepository;
 
     @Inject
@@ -37,8 +44,6 @@ public class EduWebTestService extends BaseService<EduWebTest, Long> {
         List<EduWebTest> list5 = this.getFilter(list4, requestParams.getString("useYn", ""), 4);
 
         return list5;
-
-
     }
 
     private List<EduWebTest> getFilter(List<EduWebTest> sources, String filter, int type) {
@@ -72,14 +77,20 @@ public class EduWebTestService extends BaseService<EduWebTest, Long> {
 
     //QueryDsl
     public List<EduWebTest> getByQeuryDsl(RequestParams<EduWebTest> requestParams) {
-        String company = requestParams.getString("company", "");
+        String companyNm = requestParams.getString("companyNm", "");
         String ceo = requestParams.getString("ceo", "");
         String bizno = requestParams.getString("bizno", "");
         String useYn = requestParams.getString("useYn", "");
+        logger.info("회사명" + companyNm);
+        logger.info("대표자" + ceo);
+        logger.info("사업자 번호" + bizno);
+        logger.info("사용여부" + useYn);
+
+
         BooleanBuilder builder = new BooleanBuilder();
 
-        if (isNotEmpty(company)) {
-            builder.and(qEduWebTest.companyNm.contains(company));
+        if (isNotEmpty(companyNm)) {
+            builder.and(qEduWebTest.companyNm.contains(companyNm));
         }
         if (isNotEmpty(ceo)) {
             builder.and(qEduWebTest.ceo.contains(ceo));
@@ -199,6 +210,7 @@ public class EduWebTestService extends BaseService<EduWebTest, Long> {
 
 
     //MyBatis
+
     public List<EduWebTest> select(String companyNm, String ceo, String bizno, String useYn) {
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("companyNm", companyNm);
@@ -209,6 +221,7 @@ public class EduWebTestService extends BaseService<EduWebTest, Long> {
         List<EduWebTest> list = eduWebTestMapper.select(params);
         return list;
     }
+
 
     public EduWebTest selectOne(Long id) {
         return eduWebTestMapper.selectOne(id);
@@ -229,12 +242,58 @@ public class EduWebTestService extends BaseService<EduWebTest, Long> {
     public Page<EduWebTest> getPages(RequestParams<EduWebTest> requestParams) {
         List<EduWebTest> list = this.getByQeuryDsl(requestParams);
         Pageable pageable = requestParams.getPageable();
-        int start = (int)  pageable.getOffset();
-        int end =(start +pageable.getPageSize() > list.size()? list.size():(start+pageable.getPageSize()));
-        Page<EduWebTest> pages = new PageImpl<>(list.subList(start,end),pageable,list.size());
+        int start = (int) pageable.getOffset();
+        int end = (start + pageable.getPageSize() > list.size() ? list.size() : (start + pageable.getPageSize()));
+        Page<EduWebTest> pages = new PageImpl<>(list.subList(start, end), pageable, list.size());
         return pages;
 
     }
+
+
+    public List<EduWebTest> getListUsingMyBatis(RequestParams<EduWebTest> requestParams) {
+        String companyNm = requestParams.getString("companyNm", "");
+        String ceo = requestParams.getString("ceo", "");
+        String bizno = requestParams.getString("bizno", "");
+        String useYn = requestParams.getString("useYn", "");
+
+        if (!"".equals(useYn) && !"Y".equals(useYn) && !"N".equals(useYn)) {
+            throw new RuntimeException("Y 아니면 N 입력하세요~");
+        }
+
+        HashMap<String, Object> params = new HashMap<String, Object>();
+        params.put("companyNm", companyNm);
+        params.put("ceo", ceo);
+        params.put("bizno", bizno);
+        params.put("useYn", useYn);
+
+        List<EduWebTest> list = eduWebTestMapper.errlog(params);
+        return list;
+    }
+
+/*
+    @Transactional
+    public List<EduWebTest> postexel(RequestParams<EduWebTest> requestParams) {
+        for (EduWebTest eduWebTest : requestParams) {
+            if (eduWebTest.isCreated()) {
+                save(eduWebTest);
+            } else if (eduWebTest.isModified()) {
+                update(qEduWebTest)
+                        .set(qEduWebTest.companyNm, eduWebTest.getCompanyNm())
+                        .set(qEduWebTest.ceo, eduWebTest.getCeo())
+                        .set(qEduWebTest.bizno, eduWebTest.getBizno())
+                        .set(qEduWebTest.tel, eduWebTest.getTel())
+                        .set(qEduWebTest.email, eduWebTest.getEmail())
+                        .set(qEduWebTest.useYn, eduWebTest.getUseYn())
+                        .where(qEduWebTest.id.eq(eduWebTest.getId()))
+                        .execute();
+            } else if (eduWebTest.isDeleted()) {
+                delete(qEduWebTest)
+                        .where(qEduWebTest.id.eq(eduWebTest.getId()))
+                        .execute();
+            }
+        }
+*/
+
 }
 
 

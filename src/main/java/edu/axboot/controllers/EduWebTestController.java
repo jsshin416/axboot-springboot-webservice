@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import edu.axboot.domain.eduwebtest.EduWebTest;
-import edu.axboot.domain.eduwebtest.EduWebTestService;
 import org.springframework.web.bind.annotation.RequestParam;
+import edu.axboot.domain.eduwebtest.EduWebTestService;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -59,21 +59,6 @@ public class EduWebTestController extends BaseController {
     }
 
 
-    @RequestMapping(value= "/queryDsl/pages",  method = RequestMethod.GET, produces = APPLICATION_JSON)
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "pageNumber", value = "페이지번호(0부터시작)", required = true, dataType = "integer", paramType = "query", defaultValue = "0"),
-            @ApiImplicitParam(name = "pageSize", value = "페이지크기",required = true, dataType = "integer", paramType = "query",defaultValue = "50"),
-            @ApiImplicitParam(name = "company", value = "회사명", dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "ceo", value = "대표자", dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "bizno", value = "사업자 번호", dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "useYn", value = "사용유무", dataType = "String", paramType = "query")
-    })
-    public Responses.PageResponse pages(RequestParams<EduWebTest> requestParams) {
-        Page<EduWebTest> pages =this.eduwebtestService.getPages(requestParams);
-        return Responses.PageResponse.of(pages);
-
-    }
-
 
 
     @RequestMapping(value= "/queryDsl", method = {RequestMethod.PUT}, produces = APPLICATION_JSON)
@@ -95,6 +80,19 @@ public class EduWebTestController extends BaseController {
 
     }
 
+    @RequestMapping(value= "/queryDsl/pages",  method = RequestMethod.GET, produces = APPLICATION_JSON)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "pageNumber", value = "페이지번호(0부터시작)", required = true, dataType = "integer", paramType = "query", defaultValue = "0"),
+            @ApiImplicitParam(name = "pageSize", value = "페이지크기",required = true, dataType = "integer", paramType = "query",defaultValue = "50"),
+            @ApiImplicitParam(name = "company", value = "회사명", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "ceo", value = "대표자", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "bizno", value = "사업자 번호", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "useYn", value = "사용유무", dataType = "String", paramType = "query")
+    })
+    public Responses.PageResponse pages(RequestParams<EduWebTest> requestParams) {
+        Page<EduWebTest> pages =this.eduwebtestService.getPages(requestParams);
+        return Responses.PageResponse.of(pages);
 
+    }
 
 }

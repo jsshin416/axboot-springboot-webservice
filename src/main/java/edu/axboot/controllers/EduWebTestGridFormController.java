@@ -3,12 +3,19 @@ package edu.axboot.controllers;
 import com.chequer.axboot.core.api.response.ApiResponse;
 import com.chequer.axboot.core.api.response.Responses;
 import com.chequer.axboot.core.controllers.BaseController;
+import com.chequer.axboot.core.parameter.RequestParams;
+import com.chequer.axboot.core.utils.DateUtils;
+import com.chequer.axboot.core.utils.ExcelUtils;
+import com.wordnik.swagger.annotations.ApiOperation;
 import edu.axboot.domain.eduwebtest.EduWebTest;
-import edu.axboot.domain.eduwebtest.EduWebTestService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import edu.axboot.domain.eduwebtest.EduWebTestService;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -36,6 +43,7 @@ public class EduWebTestGridFormController extends BaseController {
 
     }
 
+
     @RequestMapping(method = {RequestMethod.POST}, produces = APPLICATION_JSON)
     public ApiResponse save(@RequestBody EduWebTest request) {
         eduwebtestService.persist(request);
@@ -46,7 +54,13 @@ public class EduWebTestGridFormController extends BaseController {
     public ApiResponse remove(@PathVariable Long id) {
         eduwebtestService.remove(id);
         return ok();
+    }
 
 
+    @ApiOperation(value = "엑셀다운로드", notes = "/resources/excel/education_teach.xlsx")
+    @RequestMapping(value = "/excelDown", method = {RequestMethod.POST}, produces = APPLICATION_JSON)
+    public void excelDown(RequestParams<EduWebTest> requestParams, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        List<EduWebTest> list = eduwebtestService.getByQeuryDsl(requestParams);
+        ExcelUtils.renderExcel("/excel/education_teach.xlsx", list, "Education_" + DateUtils.getYyyyMMddHHmmssWithDate(), request, response);
     }
 }
