@@ -249,7 +249,7 @@ public class EduWebTestService extends BaseService<EduWebTest, Long> {
 
     }
 
-
+//try catch
     public List<EduWebTest> getListUsingMyBatis(RequestParams<EduWebTest> requestParams) {
         String companyNm = requestParams.getString("companyNm", "");
         String ceo = requestParams.getString("ceo", "");
@@ -269,30 +269,6 @@ public class EduWebTestService extends BaseService<EduWebTest, Long> {
         List<EduWebTest> list = eduWebTestMapper.errlog(params);
         return list;
     }
-
-/*
-    @Transactional
-    public List<EduWebTest> postexel(RequestParams<EduWebTest> requestParams) {
-        for (EduWebTest eduWebTest : requestParams) {
-            if (eduWebTest.isCreated()) {
-                save(eduWebTest);
-            } else if (eduWebTest.isModified()) {
-                update(qEduWebTest)
-                        .set(qEduWebTest.companyNm, eduWebTest.getCompanyNm())
-                        .set(qEduWebTest.ceo, eduWebTest.getCeo())
-                        .set(qEduWebTest.bizno, eduWebTest.getBizno())
-                        .set(qEduWebTest.tel, eduWebTest.getTel())
-                        .set(qEduWebTest.email, eduWebTest.getEmail())
-                        .set(qEduWebTest.useYn, eduWebTest.getUseYn())
-                        .where(qEduWebTest.id.eq(eduWebTest.getId()))
-                        .execute();
-            } else if (eduWebTest.isDeleted()) {
-                delete(qEduWebTest)
-                        .where(qEduWebTest.id.eq(eduWebTest.getId()))
-                        .execute();
-            }
-        }
-*/
 
 }
 
