@@ -2,6 +2,7 @@ package edu.axboot.domain;
 
 import edu.axboot.domain.code.QCommonCode;
 import edu.axboot.domain.eduwebtest.QEduWebTest;
+import edu.axboot.domain.eduwebtest.book.QEduWebTestBook;
 import edu.axboot.domain.file.QCommonFile;
 import edu.axboot.domain.program.QProgram;
 import edu.axboot.domain.program.menu.QMenu;
@@ -26,7 +27,7 @@ public class BaseService<T, ID extends Serializable> extends AXBootBaseService<T
     protected QMenu qMenu = QMenu.menu;
     protected QCommonFile qCommonFile = QCommonFile.commonFile;
     protected QEduWebTest qEduWebTest = QEduWebTest.eduWebTest;
-
+    protected QEduWebTestBook qEduWebTestBook = QEduWebTestBook.eduWebTestBook;
 
 
     protected AXBootJPAQueryDSLRepository<T, ID> repository;

@@ -22,25 +22,25 @@
                         <form name="searchView0">
                             <div data-ax-tbl="" id="" class="ax-search-tbl" style="">
                                 <div data-ax-tr="" id="" class="" style="">
-                                    <div data-ax-td="" id="" class="" style=";width:300px">
+                                    <div data-ax-td="" id="" class="" style="width:300px">
                                         <div data-ax-td-label="" class="" style="">회사명</div>
                                         <div data-ax-td-wrap="">
                                             <input type="text" name="company" id="company" class="form-control">
                                         </div>
                                     </div>
-                                    <div data-ax-td="" id="" class="" style=";width:300px">
+                                    <div data-ax-td="" id="" class="" style="width:300px">
                                         <div data-ax-td-label="" class="" style="">대표자</div>
                                         <div data-ax-td-wrap="">
                                             <input type="text" name="ceo" id="ceo" class="form-control">
                                         </div>
                                     </div>
-                                    <div data-ax-td="" id="" class="" style=";width:300px">
-                                        <div data-ax-td-label="" class="" style="">사업자번호</div>
+                                    <div data-ax-td="" id="" class="" style="width:300px">
+                                        <div data-ax-td-label="" class="" style="">사업자 번호</div>
                                         <div data-ax-td-wrap="">
                                             <input type="text" name="bizno" id="bizno" class="form-control">
                                         </div>
                                     </div>
-                                    <div data-ax-td="" id="" class="" style=";width:300px">
+                                    <div data-ax-td="" id="" class="" style="width:300px">
                                         <div data-ax-td-label="" class="" style="">페이징 사용</div>
                                         <div data-ax-td-wrap="">
                                             <select name="useYn" id="useYn" class="form-control js-useYn">
@@ -80,7 +80,7 @@
                                 <form name="form" class="js-form">
                                     <div data-ax-tbl="" id="" class="ax-form-tbl" style="">
                                         <div data-ax-tr="" id="" class="" style="">
-                                            <div data-ax-td="" id="" class="" style="; width:50%">
+                                            <div data-ax-td="" id="" class="" style=" width:50%">
                                                 <div data-ax-td-label="" class="" style="" ; width:150px>ID</div>
                                                 <div data-ax-td-wrap="">
 
@@ -89,7 +89,7 @@
                                                 </div>
                                             </div>
                                             <div data-ax-td="" id="" class="" style="" ;width:50%>
-                                                <div data-ax-td-label="" class="" style=";width:150px">사용여부</div>
+                                                <div data-ax-td-label="" class="" style="width:150px">사용여부</div>
                                                 <div data-ax-td-wrap="">
                                                     <select class="form-control null " data-ax-path="useYn">
                                                         <option value="Y">사용</option>
@@ -100,16 +100,16 @@
                                             </div>
                                         </div>
                                         <div data-ax-tr="" id="" class="" style="">
-                                            <div data-ax-td="" id="" class="" style=";width:50%">
-                                                <div data-ax-td-label="" class="" style=";width:150px">사업자명</div>
+                                            <div data-ax-td="" id="" class="" style="width:50%">
+                                                <div data-ax-td-label="" class="" style="width:150px">사업자명</div>
                                                 <div data-ax-td-wrap="">
                                                     <input type="text" data-ax-path="companyNm" class="form-control"
                                                         value="">
 
                                                 </div>
                                             </div>
-                                            <div data-ax-td="" id="" class="" style=";width:50%">
-                                                <div data-ax-td-label="" class="" style=";width:150px">대표자</div>
+                                            <div data-ax-td="" id="" class="" style="width:50%">
+                                                <div data-ax-td-label="" class="" style="width:150px">대표자</div>
                                                 <div data-ax-td-wrap="">
                                                     <input type="text" data-ax-path="ceo" class="form-control" value="">
 
@@ -117,31 +117,31 @@
                                             </div>
                                         </div>
                                         <div data-ax-tr="" id="" class="" style="">
-                                            <div data-ax-td="" id="" class="" style=";width:50%">
-                                                <div data-ax-td-label="" class="" style=";width:150px">사업자번호</div>
+                                            <div data-ax-td="" id="" class="" style="width:50%">
+                                                <div data-ax-td-label="" class="" style="width:150px">사업자번호</div>
                                                 <div data-ax-td-wrap="">
                                                     <input type="text" data-ax-path="bizno" class="form-control"
                                                         value="">
 
                                                 </div>
                                             </div>
-                                            <div data-ax-td="" id="" class="" style=";width:50%">
-                                                <div data-ax-td-label="" class="" style=";width:150px">전화번호</div>
+                                            <div data-ax-td="" id="" class="" style="width:50%">
+                                                <div data-ax-td-label="" class="" style="width:150px">전화번호</div>
                                                 <div data-ax-td-wrap="">
                                                     <input type="text" data-ax-path="tel" class="form-control" value="">
                                                 </div>
                                             </div>
                                         </div>
                                         <div data-ax-tr="" id="" class="" style="">
-                                            <div data-ax-td="" id="" class="" style=";width:50%">
-                                                <div data-ax-td-label="" class="" style=";width:150px">우편번호</div>
+                                            <div data-ax-td="" id="" class="" style="width:50%">
+                                                <div data-ax-td-label="" class="" style="width:150px">우편번호</div>
                                                 <div data-ax-td-wrap="">
                                                     <input type="text" data-ax-path="zip" class="form-control" value="">
 
                                                 </div>
                                             </div>
-                                            <div data-ax-td="" id="" class="" style=";width:50%">
-                                                <div data-ax-td-label="" class="" style=";width:150px">주소</div>
+                                            <div data-ax-td="" id="" class="" style="width:50%">
+                                                <div data-ax-td-label="" class="" style="width:150px">주소</div>
                                                 <div data-ax-td-wrap="">
                                                     <input type="text" data-ax-path="address" class="form-control"
                                                         value="">
@@ -154,8 +154,8 @@
                                         </div>
                                         <div data-ax-tr="" id="" class="" style="">
 
-                                            <div data-ax-td="" id="" class="" style=";width:100%">
-                                                <div data-ax-td-label="" class="" style=";width:150px">주소 상세</div>
+                                            <div data-ax-td="" id="" class="" style="width:100%">
+                                                <div data-ax-td-label="" class="" style="width:150px">주소 상세</div>
                                                 <div data-ax-td-wrap="">
 
                                                     <input type="text" data-ax-path="addressDetail" class="form-control"
@@ -165,8 +165,8 @@
                                             </div>
                                         </div>
                                         <div data-ax-tr="" id="" class="" style="">
-                                            <div data-ax-td="" id="" class="" style=";width:100%">
-                                                <div data-ax-td-label="" class="" style=";width:150px">비고</div>
+                                            <div data-ax-td="" id="" class="" style="width:100%">
+                                                <div data-ax-td-label="" class="" style="width:150px">비고</div>
                                                 <div data-ax-td-wrap="">
                                                     <input type="text" data-ax-path="remark" class="form-control"
                                                         value="">

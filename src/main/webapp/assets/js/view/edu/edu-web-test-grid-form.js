@@ -4,6 +4,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         axboot.ajax({
             type: 'GET',
             url: '/api/v1/eduwebtest/queryDsl',
+            //url: '/api/v1/eduwebtest/eduwebtestbook',
             data: caller.searchView.getData(),
             callback: function (res) {
                 caller.gridView01.setData(res);
@@ -22,6 +23,7 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         axboot.ajax({
             type: 'PUT',
             url: '/api/v1/eduwebtest/queryDsl',
+            //url: '/api/v1/eduwebtest/eduwebtestbook',
             data: JSON.stringify(item),
             callback: function (res) {
                 ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);

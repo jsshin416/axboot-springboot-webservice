@@ -10,7 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import edu.axboot.domain.BaseService;
 
-import javax.inject.Inject;
+//import javax.inject.Inject;
 
 import com.chequer.axboot.core.parameter.RequestParams;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,11 +26,11 @@ public class EduWebTestService extends BaseService<EduWebTest, Long> {
 
     private EduWebTestRepository eduwebtestRepository;
 
-    @Inject
+    //@Inject
     private EduWebTestMapper eduWebTestMapper;//mapper 사용한다고 정의
 
 
-    @Inject
+    //@Inject
     public EduWebTestService(EduWebTestRepository eduwebtestRepository) {
         super(eduwebtestRepository);
         this.eduwebtestRepository = eduwebtestRepository;
